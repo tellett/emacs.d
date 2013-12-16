@@ -1,4 +1,4 @@
-(setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+(add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
 
 (defun yas-popup-isearch-prompt (prompt choices &optional display-fn)
   (when (featurep 'popup)

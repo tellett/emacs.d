@@ -1,1 +1,1 @@
-(setq powerline-arrow-shape 'arrow14)
+(powerline-default-theme)

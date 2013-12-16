@@ -4,16 +4,21 @@
 /.emacs.desktop.lock
 *.elc
 auto-save-list
+cache
 history
 tramp
 .\#*
 
 # el-get
 el-get
+elpa
 
 # Org-mode
 .org-id-locations
 *_archive
+
+# machine local files
+init-local.el
 
 # OSX
 .DS_Store
