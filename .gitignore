@@ -4,6 +4,7 @@
 /.emacs.desktop.lock
 *.elc
 auto-save-list
+history
 tramp
 .\#*
 
