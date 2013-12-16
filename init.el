@@ -27,18 +27,15 @@
 ;; --------------------------------------------------------------------------
 ;; el-get
 
-
 (add-to-list 'load-path (concat user-emacs-directory "el-get/el-get"))
 
 (setq el-get-git-install-url "https://github.com/tellett/el-get.git"
-      el-get-sources '(
-		       (:name deft)
+      el-get-sources '((:name deft)
 		       (:name magit)
 		       (:name org) ;; TODO configure org-mode
 		       (:name powerline)
-		       (:name protobuf-mode)
 		       (:name tomorrow-theme)
-		       )
+                       (:name yasnippet))
       el-get-user-directory (concat user-emacs-directory "el-get-user")
       el-get-user-package-directory (concat
 				     (file-name-as-directory el-get-user-directory)
