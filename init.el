@@ -44,6 +44,10 @@
 ;; highlight region and comment
 (global-set-key (kbd "\C-c\C-c") 'comment-or-uncomment-region) 
 
+;; Unbind Pesky Sleep Button
+(global-unset-key [(control z)])
+(global-unset-key [(control x)(control z)])
+
 (defun split-window-prefer-horizonally (window)
   "If there's only one window (excluding any possibly active
          minibuffer), then split the current window horizontally."
@@ -408,10 +412,6 @@ want to use in the modeline *in lieu of* the original.")
                     tabs
                     tab-mark
                     trailing))
-
-;; not really whitespace-mode, but relevant.
-(dolist (hook '(prog-mode-hook))
-  (add-hook hook '(lambda () (font-lock-set-up-width-warning 80))))
 
 
 ;; --------------------------------------------------------------------------
