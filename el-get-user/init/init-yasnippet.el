@@ -23,6 +23,6 @@
 ;; (setq yas-prompt-functions '(yas-ido-prompt yas-no-prompt))
 
 ;; this solves the "term-send-raw: Wrong type argument: characterp, tab" issue
-(add-hook 'term-mode-hook (lambda() (yas-minor-mode -1)))
+(add-hook 'term-mode-hook (lambda() (setq yas-dont-activate t)))
 
 (yas-global-mode 1)
