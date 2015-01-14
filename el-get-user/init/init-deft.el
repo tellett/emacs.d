@@ -1,4 +1,4 @@
-(setq deft-extension "org")
-(setq deft-directory (expand-file-name "~/org/"))
-(setq deft-text-mode 'org-mode)
-(setq deft-use-filename-as-title t)
+(setq deft-extension "org"
+      deft-directory (expand-file-name "~/org/")
+      deft-text-mode 'org-mode
+      deft-use-filename-as-title t)

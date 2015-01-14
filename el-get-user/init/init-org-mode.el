@@ -50,24 +50,17 @@
 ;; join the path elements together to locate the dir.
 (setq org-directory (expand-file-name "~/org/"))
 
-(setq org-agenda-files
-      (directory-files
-       (expand-file-name org-directory) t "^[^\.][^#][[:alnum:]]+\.org$"))
-
-(setq org-agenda-ndays 7)
-(setq org-agenda-show-all-dates t)
-(setq org-agenda-skip-deadline-if-done t)
-(setq org-agenda-skip-scheduled-if-done t)
-(setq org-agenda-start-on-weekday nil)
-
-(setq org-completion-use-ido t)
-
-(setq org-deadline-warning-days 14)
-(setq org-default-notes-file (concat org-directory "notes.org"))
-
-(setq org-fast-tag-selection-single-key (quote expert))
-
-(setq org-reverse-note-order t)
+(setq org-agenda-files (list org-directory)
+      org-agenda-ndays 7
+      org-agenda-show-all-dates t
+      org-agenda-skip-deadline-if-done t
+      org-agenda-skip-scheduled-if-done t
+      org-agenda-start-on-weekday nil
+      org-completion-use-ido t
+      org-deadline-warning-days 14
+      org-default-notes-file (concat org-directory "notes.org")
+      org-fast-tag-selection-single-key (quote expert)
+      org-reverse-note-order t)
 
 (setq org-capture-templates
       (quote (("t" "Todo" entry (file+headline

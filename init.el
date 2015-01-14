@@ -10,7 +10,7 @@
   (setq redisplay-dont-pause t)
   (fringe-mode '(0 . 8))
   ;; (scroll-bar-mode 0)
-  (set-default-font "DejaVu Sans Mono-8")
+  (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-8" ))
 
   ;; set chrome as the default browser
   (setq browse-url-browser-function 'browse-url-generic
@@ -436,6 +436,7 @@ want to use in the modeline *in lieu of* the original.")
                              org-mode
                              powerline
                              tomorrow-theme
+                             web-mode
                              yaml-mode
                              yasnippet))
 
