@@ -4,6 +4,7 @@
 /.emacs.desktop.lock
 *.elc
 auto-save-list
+bookmarks
 cache
 history
 tramp

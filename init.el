@@ -10,7 +10,7 @@
   (setq redisplay-dont-pause t)
   (fringe-mode '(0 . 8))
   ;; (scroll-bar-mode 0)
-  (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-8" ))
+  (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-8"))
 
   ;; set chrome as the default browser
   (setq browse-url-browser-function 'browse-url-generic
@@ -56,7 +56,7 @@
       (let ((split-height-threshold nil))
         (split-window-sensibly window))
     (split-window-sensibly window)))
-(setq split-window-preferred-function 'split-window-prefer-horizonally)
+;;(setq split-window-preferred-function 'split-window-prefer-horizonally)
 
 
 ;; --------------------------------------------------------------------------
@@ -314,6 +314,10 @@ want to use in the modeline *in lieu of* the original.")
 (dolist (hook '(change-log-mode-hook log-edit-mode-hook))
   (add-hook hook (lambda () (flyspell-mode -1))))
 
+;; --------------------------------------------------------------------------
+; html-mode
+
+(add-hook 'html-mode-hook (lambda () (auto-fill-mode -1) (zencoding-mode 1)))
 
 ;; --------------------------------------------------------------------------
 ; ido-mode
@@ -370,7 +374,8 @@ want to use in the modeline *in lieu of* the original.")
 ;;; bind RET to py-newline-and-indent
 (add-hook 'python-mode-hook
           (lambda ()
-            (define-key python-mode-map "\C-m" 'newline-and-indent)))
+            (define-key python-mode-map "\C-m" 'newline-and-indent)
+            (define-key python-mode-map (kbd "<backspace>") 'backward-delete-char-untabify)))
 
 
 ;; --------------------------------------------------------------------------
@@ -438,7 +443,8 @@ want to use in the modeline *in lieu of* the original.")
                              tomorrow-theme
                              web-mode
                              yaml-mode
-                             yasnippet))
+                             yasnippet
+                             zencoding-mode))
 
 (eval-after-load "el-get/el-get.el"
   (lambda()
