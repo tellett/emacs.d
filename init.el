@@ -1,3 +1,7 @@
+(require 'cl-lib)
+
+(add-to-list 'exec-path "/usr/local/bin")
+
 ;; these are shoved at the top to speed boot.
 (setq inhibit-splash-screen t)
 (setq-default indent-tabs-mode nil)
@@ -131,7 +135,9 @@
 ;; newlines when the cursor goes over the column limit.
 
 (dolist (hook '(prog-mode-hook text-mode-hook))
-  (add-hook hook (lambda () (auto-fill-mode 1))))
+  (add-hook hook (lambda ()
+                   (auto-fill-mode 1)
+                   (linum-mode 1))))
 
 
 ;; --------------------------------------------------------------------------
@@ -167,7 +173,7 @@ want to use in the modeline *in lieu of* the original.")
 
 (defun clean-mode-line ()
   (interactive)
-  (loop for cleaner in mode-line-cleaner-alist
+  (cl-loop for cleaner in mode-line-cleaner-alist
         do (let* ((mode (car cleaner))
                   (mode-str (cdr cleaner))
                   (old-mode-str (cdr (assq mode minor-mode-alist))))
@@ -303,6 +309,11 @@ want to use in the modeline *in lieu of* the original.")
 
 (setq ispell-personal-dictionary "~/.ispell-personal-dict")
 
+;; Use aspell if installed
+(when (executable-find "aspell")
+  (setq ispell-program-name "aspell")
+  (setq ispell-list-command "--list"))
+
 ;; enable for the following modes
 (dolist (hook '(text-mode-hook))
   (add-hook hook (lambda () (flyspell-mode 1))))
@@ -435,16 +446,25 @@ want to use in the modeline *in lieu of* the original.")
       el-get-user-directory (concat user-emacs-directory "el-get-user")
       el-get-user-package-directory (concat (file-name-as-directory
                                              el-get-user-directory) "init")
-      the-el-get-packages '(deft
-                             go-mode
-                             magit
-                             org-mode
-                             powerline
-                             tomorrow-theme
-                             web-mode
-                             yaml-mode
-                             yasnippet
-                             zencoding-mode))
+      the-el-get-packages '(auto-highlight-symbol
+                            deft
+                            docker
+                            dockerfile-mode
+                            go-mode
+                            json-mode
+                            json-reformat
+                            magit
+                            markdown-mode
+                            org-mode
+                            powerline
+                            protobuf-mode
+                            scala-mode
+                            tomorrow-theme
+                            web-mode
+                            yaml-mode
+                            yasnippet
+                            yasnippet-snippets
+                            zencoding-mode))
 
 (eval-after-load "el-get/el-get.el"
   (lambda()
