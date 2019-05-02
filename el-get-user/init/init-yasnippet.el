@@ -18,6 +18,8 @@
         yas-ido-prompt
         yas-no-prompt))
 
+(setq yas-snippet-dirs '("~/src/opensource/personal/yasnippet-snippets"))
+
 ;; (setq yas-prompt-functions '(yas-ido-prompt yas-no-prompt))
 
 ;; this solves the "term-send-raw: Wrong type argument: characterp, tab" issue

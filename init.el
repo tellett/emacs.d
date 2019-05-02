@@ -1,3 +1,5 @@
+;; (package-initialize)
+
 (require 'cl-lib)
 
 (add-to-list 'exec-path "/usr/local/bin")
@@ -14,7 +16,7 @@
   (setq redisplay-dont-pause t)
   (fringe-mode '(0 . 8))
   ;; (scroll-bar-mode 0)
-  (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-8"))
+  (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-10"))
 
   ;; set chrome as the default browser
   (setq browse-url-browser-function 'browse-url-generic
@@ -46,7 +48,7 @@
 (size-indication-mode -1)
 
 ;; highlight region and comment
-(global-set-key (kbd "\C-c\C-c") 'comment-or-uncomment-region) 
+(global-set-key (kbd "\C-c\C-c") 'comment-or-uncomment-region)
 
 ;; Unbind Pesky Sleep Button
 (global-unset-key [(control z)])
@@ -61,6 +63,13 @@
         (split-window-sensibly window))
     (split-window-sensibly window)))
 ;;(setq split-window-preferred-function 'split-window-prefer-horizonally)
+
+
+(setq exec-path (append '("/usr/local/go/bin" "/home/tellett/bin")
+                        exec-path))
+
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 
 ;; --------------------------------------------------------------------------
@@ -394,6 +403,14 @@ want to use in the modeline *in lieu of* the original.")
 
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 
+;; --------------------------------------------------------------------------
+;; sh-mode
+
+(add-hook 'sh-mode-hook (lambda ()
+                          (setq sh-basic-offset 2)
+                          (setq sh-indentation 2)
+                          (setq indent-tabs-mode nil)))
+
 
 ;; --------------------------------------------------------------------------
 ;; uniquify
@@ -417,7 +434,7 @@ want to use in the modeline *in lieu of* the original.")
                                (space-mark 3872 [3876] [95])
                                (newline-mark 10 [182 10]) ; newlne, ¶
                                (tab-mark 9 [9655 9] [92 9])) ; tab, ▷
- 
+
  ;; make whitespace-mode use just basic coloring
  whitespace-style '(lines
                     lines-tail
@@ -450,12 +467,15 @@ want to use in the modeline *in lieu of* the original.")
                             deft
                             docker
                             dockerfile-mode
+                            go-autocomplete
+                            go-dlv
+                            go-eldoc
                             go-mode
+                            go-rename
                             json-mode
                             json-reformat
-                            magit
                             markdown-mode
-                            org-mode
+                            popup
                             powerline
                             protobuf-mode
                             scala-mode
@@ -486,7 +506,6 @@ want to use in the modeline *in lieu of* the original.")
 
 (el-get 'sync '(el-get))
 (el-get 'sync the-el-get-packages)
-
 
 ;; --------------------------------------------------------------------------
 ;; compile and load up the local stuff
