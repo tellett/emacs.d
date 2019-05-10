@@ -464,10 +464,13 @@ want to use in the modeline *in lieu of* the original.")
       el-get-user-package-directory (concat (file-name-as-directory
                                              el-get-user-directory) "init")
       the-el-get-packages '(auto-highlight-symbol
+                            company-mode
+                            company-quickhelp
+                            company-web
                             deft
                             docker
                             dockerfile-mode
-                            go-autocomplete
+                            go-company
                             go-dlv
                             go-eldoc
                             go-mode
@@ -475,9 +478,12 @@ want to use in the modeline *in lieu of* the original.")
                             json-mode
                             json-reformat
                             markdown-mode
+                            org-mode
                             popup
+                            pos-tip
                             powerline
                             protobuf-mode
+                            puppet-mode
                             scala-mode
                             tomorrow-theme
                             web-mode
