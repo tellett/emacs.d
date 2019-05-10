@@ -45,10 +45,10 @@
                  (lambda nil
                    (org-agenda-skip-entry-if (quote scheduled) (quote deadline)
                                              (quote regexp) "\n]+>")))
-                (org-agenda-overriding-header "Unscheduled TODO entries: "))))))
+                (org-agenda-overriding-header "Unscheduled TODO entries:"))))))
 
-;; join the path elements together to locate the dir.
-(setq org-directory (expand-file-name "~/org/"))
+
+(setq org-directory "~/org/")
 
 (setq org-agenda-files (list org-directory)
       org-agenda-ndays 7
@@ -58,14 +58,12 @@
       org-agenda-start-on-weekday nil
       org-completion-use-ido t
       org-deadline-warning-days 14
-      org-default-notes-file (concat org-directory "notes.org")
+      org-default-notes-file "~/org/notes.org"
       org-fast-tag-selection-single-key (quote expert)
       org-reverse-note-order t)
 
 (setq org-capture-templates
-      (quote (("t" "Todo" entry (file+headline
-                                  (concat org-directory "inbox.org") "Tasks")
+      (quote (("t" "Todo" entry (file+headline "~/org/inbox.org" "Tasks")
                "* TODO %?\n  %u")
-              ("n" "Note" entry (file+datetree
-                                  (concat org-directory "notes.org"))
+              ("n" "Note" entry (file+datetree "~/org/notes.org")
                "** %u %?"))))

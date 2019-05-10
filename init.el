@@ -14,7 +14,7 @@
 
 (when (string-equal window-system "x")
   (setq redisplay-dont-pause t)
-  (fringe-mode '(0 . 8))
+  ;; (fringe-mode '(0 . 8))
   ;; (scroll-bar-mode 0)
   (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-10"))
 
@@ -145,8 +145,7 @@
 
 (dolist (hook '(prog-mode-hook text-mode-hook))
   (add-hook hook (lambda ()
-                   (auto-fill-mode 1)
-                   (linum-mode 1))))
+                   (auto-fill-mode 1))))
 
 
 ;; --------------------------------------------------------------------------
@@ -384,8 +383,9 @@ want to use in the modeline *in lieu of* the original.")
                                     "\x2007")
                                    'face 'linum))))))
 
-(dolist (hook '(prog-mode-hook))
-  (add-hook hook (lambda () (linum-mode t))))
+(dolist (hook '(prog-mode-hook text-mode-hook))
+  (add-hook hook (lambda ()
+                   (linum-mode 1))))
 
 
 ;; --------------------------------------------------------------------------
@@ -464,21 +464,28 @@ want to use in the modeline *in lieu of* the original.")
       el-get-user-package-directory (concat (file-name-as-directory
                                              el-get-user-directory) "init")
       the-el-get-packages '(auto-highlight-symbol
+                            company-mode
+                            company-quickhelp
+                            company-web
                             deft
                             docker
                             dockerfile-mode
-                            go-autocomplete
+                            go-company
                             go-dlv
                             go-eldoc
                             go-mode
                             go-rename
                             json-mode
                             json-reformat
+                            magit
                             markdown-mode
+                            org-mode
                             popup
-                            powerline
+                            pos-tip
                             protobuf-mode
+                            puppet-mode
                             scala-mode
+                            spaceline
                             tomorrow-theme
                             web-mode
                             yaml-mode
