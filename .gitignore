@@ -8,7 +8,9 @@ bookmarks
 cache
 history
 tramp
+transient
 .\#*
+
 
 # el-get
 el-get
