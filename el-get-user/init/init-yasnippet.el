@@ -25,4 +25,6 @@
 ;; this solves the "term-send-raw: Wrong type argument: characterp, tab" issue
 (add-hook 'term-mode-hook (lambda() (setq yas-dont-activate t)))
 
+(require 'yasnippet)
+
 (yas-global-mode 1)

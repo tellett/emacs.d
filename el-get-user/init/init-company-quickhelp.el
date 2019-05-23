@@ -1,3 +1,5 @@
+(require 'company-quickhelp)
+
 (company-quickhelp-mode)
 
 (eval-after-load 'company
