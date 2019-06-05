@@ -16,6 +16,9 @@ transient
 el-get
 elpa
 
+# smex
+smex-items
+
 # Org-mode
 .org-id-locations
 *_archive

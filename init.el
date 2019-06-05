@@ -68,7 +68,6 @@
 (setq exec-path (append '("/usr/local/go/bin" "/home/tellett/bin")
                         exec-path))
 
-
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 
@@ -475,6 +474,7 @@ want to use in the modeline *in lieu of* the original.")
                             go-eldoc
                             go-mode
                             go-rename
+                            ido-completing-read-plus
                             json-mode
                             json-reformat
                             magit
@@ -484,7 +484,9 @@ want to use in the modeline *in lieu of* the original.")
                             pos-tip
                             protobuf-mode
                             puppet-mode
+                            rainbow-delimiters
                             scala-mode
+                            smooth-scrolling
                             spaceline
                             tomorrow-theme
                             web-mode
