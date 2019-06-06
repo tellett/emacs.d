@@ -467,8 +467,10 @@ want to use in the modeline *in lieu of* the original.")
                             company-quickhelp
                             company-web
                             deft
-                            docker
+                            docker-compose-mode
+                            docker-tramp
                             dockerfile-mode
+                            flycheck
                             go-company
                             go-dlv
                             go-eldoc
