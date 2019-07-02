@@ -1,3 +1,6 @@
+(setq godef-command "/home/tellett/go-code/bin/godef"
+      godoc-command "go doc")
+
 (dolist (hook '(go-mode-hook))
   (add-hook 'hook '(lambda ()
                      (local-set-key (kbd "M-.") 'godef-jump)

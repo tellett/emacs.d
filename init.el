@@ -54,15 +54,15 @@
 (global-unset-key [(control z)])
 (global-unset-key [(control x)(control z)])
 
-(defun split-window-prefer-horizonally (window)
-  "If there's only one window (excluding any possibly active
-         minibuffer), then split the current window horizontally."
-  (if (and (one-window-p t)
-           (not (active-minibuffer-window)))
-      (let ((split-height-threshold nil))
-        (split-window-sensibly window))
-    (split-window-sensibly window)))
-;;(setq split-window-preferred-function 'split-window-prefer-horizonally)
+;; (defun split-window-prefer-horizonally (window)
+;;   "If there's only one window (excluding any possibly active
+;;          minibuffer), then split the current window horizontally."
+;;   (if (and (one-window-p t)
+;;            (not (active-minibuffer-window)))
+;;       (let ((split-height-threshold nil))
+;;         (split-window-sensibly window))
+;;     (split-window-sensibly window)))
+;; (setq split-window-preferred-function 'split-window-prefer-horizonally)
 
 
 (setq exec-path (append '("/usr/local/go/bin" "/home/tellett/bin")
@@ -173,7 +173,6 @@
     (python-mode . "Py")
     )
   "Alist for `clean-mode-line'.
-
 When you add a new element to the alist, keep in mind that you
 must pass the correct minor/major mode symbol and a string you
 want to use in the modeline *in lieu of* the original.")
@@ -382,7 +381,7 @@ want to use in the modeline *in lieu of* the original.")
                                     "\x2007")
                                    'face 'linum))))))
 
-(dolist (hook '(prog-mode-hook text-mode-hook))
+(dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
   (add-hook hook (lambda ()
                    (linum-mode 1))))
 
@@ -462,7 +461,9 @@ want to use in the modeline *in lieu of* the original.")
       el-get-user-directory (concat user-emacs-directory "el-get-user")
       el-get-user-package-directory (concat (file-name-as-directory
                                              el-get-user-directory) "init")
-      the-el-get-packages '(auto-highlight-symbol
+      the-el-get-packages '(all-the-icons
+                            auto-highlight-symbol
+                            bazel-mode
                             company-mode
                             company-quickhelp
                             company-web
@@ -470,27 +471,35 @@ want to use in the modeline *in lieu of* the original.")
                             docker-compose-mode
                             docker-tramp
                             dockerfile-mode
+                            exec-path-from-shell
                             flycheck
                             go-company
                             go-dlv
                             go-eldoc
                             go-mode
+                            go-projectile
                             go-rename
                             ido-completing-read-plus
                             json-mode
                             json-reformat
                             magit
                             markdown-mode
+                            neotree
                             org-mode
                             popup
                             pos-tip
+                            projectile
                             protobuf-mode
                             puppet-mode
                             rainbow-delimiters
+                            rainbow-mode
                             scala-mode
-                            smooth-scrolling
+                            smex
+;;                            smooth-scrolling
                             spaceline
+;;                            spaceline-all-the-icons
                             tomorrow-theme
+                            web-completion-data
                             web-mode
                             yaml-mode
                             yasnippet
@@ -511,8 +520,9 @@ want to use in the modeline *in lieu of* the original.")
       (eval-print-last-sexp))))
 
 (mapcar (lambda(x) (add-to-list 'package-archives x))
-        '(("marmalade" . "http://marmalade-repo.org/packages/")
-          ("melpa" . "http://melpa.milkbox.net/packages/")
+        '(
+;;	  ("marmalade" . "https://marmalade-repo.org/packages/")
+          ("melpa" . "https://melpa.org/packages/")
           ("tromey" . "http://tromey.com/elpa/")))
 
 (el-get 'sync '(el-get))

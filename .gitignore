@@ -11,6 +11,8 @@ tramp
 transient
 .\#*
 
+# projectile
+projectile-bookmarks.eld
 
 # el-get
 el-get
