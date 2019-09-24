@@ -1,6 +1,8 @@
 ;; docs: http://web-mode.org
 ;; code: https://github.com/fxbois/web-mode
 
+(autoload 'web-mode "web-mode" "Major mode for editing lots of stuff" t)
+
 (defun my-web-mode-hook ()
   "Hooks for Web mode."
   (setq web-mode-markup-indent-offset 2

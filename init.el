@@ -16,7 +16,7 @@
   (setq redisplay-dont-pause t)
   ;; (fringe-mode '(0 . 8))
   ;; (scroll-bar-mode 0)
-  (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-10"))
+  (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-8"))
 
   ;; set chrome as the default browser
   (setq browse-url-browser-function 'browse-url-generic
@@ -152,6 +152,11 @@
 
 (setq-default compilation-scroll-output 'first-error)
 
+(when (require 'ansi-color nil t)
+  (defun my-colorize-compilation-buffer ()
+    (when (eq major-mode 'compilation-mode)
+      (ansi-color-apply-on-region compilation-filter-start (point-max))))
+  (add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer))
 
 ;; --------------------------------------------------------------------------
 ;; clean the mode line
@@ -498,6 +503,7 @@ want to use in the modeline *in lieu of* the original.")
 ;;                            smooth-scrolling
                             spaceline
 ;;                            spaceline-all-the-icons
+                            sr-speedbar
                             tomorrow-theme
                             web-completion-data
                             web-mode
