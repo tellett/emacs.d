@@ -42,7 +42,7 @@
 
 ;; use the echo area for tooltips
 (tooltip-mode -1)
-(setq tooltip-use-echo-area t)
+;; (setq tooltip-use-echo-area t)
 
 ;; disable the "... of ..." to save space on the mode line
 (size-indication-mode -1)
@@ -149,6 +149,8 @@
 
 ;; --------------------------------------------------------------------------
 ;; compilation-mode
+
+(eval-when-compile )
 
 (setq-default compilation-scroll-output 'first-error)
 
@@ -576,6 +578,7 @@ want to use in the modeline *in lieu of* the original.")
                             smex
                             spaceline
                             sr-speedbar
+                            terraform-mode
                             tomorrow-theme
                             web-completion-data
                             web-mode
@@ -597,7 +600,7 @@ want to use in the modeline *in lieu of* the original.")
       (goto-char (point-max))
       (eval-print-last-sexp))))
 
-(mapcar (lambda(x) (add-to-list 'package-archives x))
+(mapc (lambda(x) (add-to-list 'package-archives x))
         '(
 	  ("marmalade" . "https://marmalade-repo.org/packages/")
           ("melpa" . "https://melpa.org/packages/")
