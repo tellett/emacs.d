@@ -16,7 +16,7 @@
   (setq redisplay-dont-pause t)
   ;; (fringe-mode '(0 . 8))
   ;; (scroll-bar-mode 0)
-  (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-8"))
+  (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-10"))
 
   ;; set chrome as the default browser
   (setq browse-url-browser-function 'browse-url-generic
@@ -302,7 +302,7 @@ want to use in the modeline *in lieu of* the original.")
 
 ;; TODO: change this to walk over a closing brace...
 (defun electric-pair ()
-  "Insert character pair without surrounding spaces"
+  "Insert character pair without surrounding spaces."
   (interactive)
   (let (parens-require-spaces)
     (insert-pair)))
@@ -543,7 +543,7 @@ want to use in the modeline *in lieu of* the original.")
       el-get-user-package-directory (concat (file-name-as-directory
                                              el-get-user-directory) "init")
       the-el-get-packages '(all-the-icons
-                            auto-highlight-symbol
+;;                            auto-highlight-symbol
 ;;                            bazel-mode
                             company-mode
                             company-quickhelp
@@ -554,12 +554,12 @@ want to use in the modeline *in lieu of* the original.")
                             dockerfile-mode
                             exec-path-from-shell
                             flycheck
-                            go-company
-                            go-dlv
-                            go-eldoc
+;;                            go-company
+;;                            go-dlv
+;;                            go-eldoc
                             go-mode
-                            go-projectile
-                            go-rename
+;;                            go-projectile
+;;                            go-rename
                             gradle-mode
                             ido-completing-read-plus
                             json-mode
@@ -616,3 +616,5 @@ want to use in the modeline *in lieu of* the original.")
 (if (and (file-exists-p custom-file) (file-readable-p custom-file))
     (byte-compile-file custom-file t))
 (put 'upcase-region 'disabled nil)
+
+;;; init.el ends here
