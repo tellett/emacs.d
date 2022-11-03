@@ -18,7 +18,7 @@
         yas-ido-prompt
         yas-no-prompt))
 
-(setq yas-snippet-dirs '("~/src/personal/yasnippet-snippets"))
+;; (setq yas-snippet-dirs '("~/src/personal/yasnippet-snippets"))
 
 ;; (setq yas-prompt-functions '(yas-ido-prompt yas-no-prompt))
 

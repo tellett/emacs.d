@@ -13,6 +13,12 @@ transient
 # projectile
 projectile-bookmarks.eld
 
+# treemacs
+.cache
+
+# lsp
+.lsp-session-*
+
 # el-get
 el-get
 elpa
@@ -34,7 +40,6 @@ init-local.el
 
 # Icon must ends with two \r.
 Icon
-
 
 # Thumbnails
 ._*

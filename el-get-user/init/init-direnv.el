@@ -1,0 +1,2 @@
+(require 'direnv)
+(direnv-mode)

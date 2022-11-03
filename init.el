@@ -543,12 +543,15 @@ want to use in the modeline *in lieu of* the original.")
       el-get-user-package-directory (concat (file-name-as-directory
                                              el-get-user-directory) "init")
       the-el-get-packages '(all-the-icons
-;;                            auto-highlight-symbol
+                            auto-highlight-symbol
 ;;                            bazel-mode
+                            company-lsp
                             company-mode
                             company-quickhelp
                             company-web
+                            dash
                             deft
+                            direnv
                             docker-compose-mode
                             docker-tramp
                             dockerfile-mode
@@ -564,14 +567,17 @@ want to use in the modeline *in lieu of* the original.")
                             ido-completing-read-plus
                             json-mode
                             json-reformat
+                            lsp-mode
+                            lsp-treemacs
+                            lsp-ui
                             magit
                             markdown-mode
-                            neotree
                             popup
                             pos-tip
                             projectile
                             protobuf-mode
                             puppet-mode
+                            python-black
                             rainbow-delimiters
                             rainbow-mode
                             scala-mode
@@ -580,6 +586,10 @@ want to use in the modeline *in lieu of* the original.")
                             sr-speedbar
                             terraform-mode
                             tomorrow-theme
+                            treemacs
+                            treemacs-icons-dired
+                            treemacs-projectile
+                            vterm
                             web-completion-data
                             web-mode
                             yaml-mode
