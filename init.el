@@ -1,8 +1,13 @@
-;; (package-initialize)
+;;; init.el --- emacs.d initialization code.
+;;; Commentary:
 
-(require 'cl-lib)
+;;; Requires:
 
-(add-to-list 'exec-path "/usr/local/bin")
+(eval-when-compile (require 'cl-lib))
+
+;;; Code:
+
+;; (add-to-list 'exec-path "/usr/local/bin")
 
 ;; these are shoved at the top to speed boot.
 (setq inhibit-splash-screen t)
@@ -13,22 +18,11 @@
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
 (when (string-equal window-system "x")
-  (setq redisplay-dont-pause t)
-  ;; (fringe-mode '(0 . 8))
-  ;; (scroll-bar-mode 0)
   (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-10"))
 
   ;; set chrome as the default browser
   (setq browse-url-browser-function 'browse-url-generic
-	browse-url-generic-program "google-chrome")
-
-  ;; let's map a few of the Evoluent's buttons.
-  (global-set-key [mouse-8] '(lambda ()
-                               (interactive)
-                               (next-buffer)))
-  (global-set-key [mouse-10] '(lambda ()
-                                (interactive)
-                                (previous-buffer))))
+	browse-url-generic-program "google-chrome"))
 
 (blink-cursor-mode t)
 (column-number-mode t)
@@ -54,45 +48,9 @@
 (global-unset-key [(control z)])
 (global-unset-key [(control x)(control z)])
 
-;; (defun split-window-prefer-horizonally (window)
-;;   "If there's only one window (excluding any possibly active
-;;          minibuffer), then split the current window horizontally."
-;;   (if (and (one-window-p t)
-;;            (not (active-minibuffer-window)))
-;;       (let ((split-height-threshold nil))
-;;         (split-window-sensibly window))
-;;     (split-window-sensibly window)))
-;; (setq split-window-preferred-function 'split-window-prefer-horizonally)
-
-
-(setq exec-path (append '("/usr/local/go/bin" "/home/tellett/bin")
-                        exec-path))
+(setq exec-path (append '("/home/tellett/bin") exec-path))
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-
-;; --------------------------------------------------------------------------
-;; ansi-term
-
-;; kill buffers that are finished
-(defadvice term-sentinel (around my-advice-term-sentinel (proc msg))
-  (if (memq (process-status proc) '(signal exit))
-      (let ((buffer (process-buffer proc)))
-        ad-do-it
-        (kill-buffer buffer))
-    ad-do-it))
-(ad-activate 'term-sentinel)
-
-;; force bash
-(defvar my-term-shell "/bin/bash")
-(defadvice ansi-term (before force-bash)
-  (interactive (list my-term-shell)))
-(ad-activate 'ansi-term)
-
-;; use utf8
-(defun my-term-use-utf8 ()
-  (set-buffer-process-coding-system 'utf-8-unix 'utf-8-unix))
-(add-hook 'term-exec-hook 'my-term-use-utf8)
 
 
 ;; --------------------------------------------------------------------------
@@ -157,6 +115,7 @@
 (when (require 'ansi-color nil t)
   (defun my-colorize-compilation-buffer ()
     (when (eq major-mode 'compilation-mode)
+      (defvar compilation-filter-start)
       (ansi-color-apply-on-region compilation-filter-start (point-max))))
   (add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer))
 
@@ -203,6 +162,9 @@ want to use in the modeline *in lieu of* the original.")
 (defalias 'flymake-report-status 'flymake-report-status-slim)
 (defun flymake-report-status-slim (e-w &optional status)
   "Show \"slim\" flymake status in mode line."
+  (defvar flymake-mode-line-e-w)
+  (defvar flymake-mode-line-status)
+  (defvar flymake-mode-line)
   (when e-w
     (setq flymake-mode-line-e-w e-w))
   (when status
@@ -224,8 +186,7 @@ want to use in the modeline *in lieu of* the original.")
 (savehist-mode 1)
 
 (defun save-emacs-state ()
-  "Saves the desktop as of right now, so if it dies it'll come back in
-  the right place."
+  "Save the desktop as of right now, so if it dies it'll come back in the right place."
   (interactive)
   (desktop-save desktop-dirname)
   (message "Saved desktop %s" desktop-dirname))
@@ -235,33 +196,33 @@ want to use in the modeline *in lieu of* the original.")
   (run-with-idle-timer 300 t #'save-emacs-state)
   "Timer that saves my desktop state every 5 minutes.")
 
-;; Augment shell-mode to save state (history and current directory) on desktop
-;; save
-(defun my-shell-save-desktop-data (desktop-dirname)
-  "Extra info for shell-mode buffers to be saved in the desktop file."
-  (list default-directory comint-input-ring))
+;; ;; Augment shell-mode to save state (history and current directory) on desktop
+;; ;; save
+;; (defun my-shell-save-desktop-data (desktop-dirname)
+;;   "Extra info for shell-mode buffers to be saved in the desktop file."
+;;   (list default-directory comint-input-ring))
 
-(defun my-shell-restore-desktop-buffer
-  (desktop-buffer-file-name desktop-buffer-name desktop-buffer-misc)
-  "Restore a shell buffer's state from the desktop file."
-  (let ((dir (nth 0 desktop-buffer-misc))
-        (ring (nth 1 desktop-buffer-misc)))
-    (when desktop-buffer-name
-      (set-buffer (get-buffer-create desktop-buffer-name))
-      (when dir
-        (setq default-directory dir))
-      (shell desktop-buffer-name)
-      (when ring
-        (setq comint-input-ring ring))
-      (current-buffer))))
+;; (defun my-shell-restore-desktop-buffer
+;;   (desktop-buffer-file-name desktop-buffer-name desktop-buffer-misc)
+;;   "Restore a shell buffer's state from the desktop file."
+;;   (let ((dir (nth 0 desktop-buffer-misc))
+;;         (ring (nth 1 desktop-buffer-misc)))
+;;     (when desktop-buffer-name
+;;       (set-buffer (get-buffer-create desktop-buffer-name))
+;;       (when dir
+;;         (setq default-directory dir))
+;;       (shell desktop-buffer-name)
+;;       (when ring
+;;         (setq comint-input-ring ring))
+;;       (current-buffer))))
 
-(defun my-shell-setup-desktop ()
-  "Sets up a shell buffer to have its state saved in the desktop file."
-  (set (make-local-variable 'desktop-save-buffer) #'my-shell-save-desktop-data))
+;; (defun my-shell-setup-desktop ()
+;;   "Sets up a shell buffer to have its state saved in the desktop file."
+;;   (set (make-local-variable 'desktop-save-buffer) #'my-shell-save-desktop-data))
 
-(add-to-list 'desktop-buffer-mode-handlers
-             '(shell-mode . my-shell-restore-desktop-buffer))
-(add-hook 'shell-mode-hook #'my-shell-setup-desktop)
+;; (add-to-list 'desktop-buffer-mode-handlers
+;;              '(shell-mode . my-shell-restore-desktop-buffer))
+;; (add-hook 'shell-mode-hook #'my-shell-setup-desktop)
 
 (setq desktop-dirname (expand-file-name "~/"))
 (setq desktop-path (list desktop-dirname))
@@ -276,23 +237,23 @@ want to use in the modeline *in lieu of* the original.")
       ;; It's dead, Jim.
       (delete-file (desktop-full-lock-name)))))
 
-;; bugfix in desktop.el
-(defadvice desktop-create-buffer (around dont-bury-dead-buffers act)
-  (cl-flet ((real-bury-buffer () nil))
-    (fset 'real-bury-buffer (symbol-function #'bury-buffer))
-    (cl-flet ((bury-buffer (buf) (when (buffer-live-p buf)
-                                (real-bury-buffer buf))))
-      ad-do-it)))
+;; ;; bugfix in desktop.el
+;; (defadvice desktop-create-buffer (around dont-bury-dead-buffers act)
+;;   (cl-flet ((real-bury-buffer () nil))
+;;     (fset 'real-bury-buffer (symbol-function #'bury-buffer))
+;;     (cl-flet ((bury-buffer (buf) (when (buffer-live-p buf)
+;;                                 (real-bury-buffer buf))))
+;;       ad-do-it)))
 
-;; don't ever prompt while restoring desktop
-(defadvice desktop-read (around no-prompting act)
-  (cl-flet ((y-or-n-p (prompt) nil)
-         (read-char-choice
-          (prompt chars suppress-quit)
-          (if (memq ?n chars)
-              ?n
-            (error "Don't know how to fake read-char-choice"))))
-    ad-do-it))
+;; ;; don't ever prompt while restoring desktop
+;; (defadvice desktop-read (around no-prompting act)
+;;   (cl-flet ((y-or-n-p (prompt) nil)
+;;          (read-char-choice
+;;           (prompt chars suppress-quit)
+;;           (if (memq ?n chars)
+;;               ?n
+;;             (error "Don't know how to fake read-char-choice"))))
+;;     ad-do-it))
 
 (desktop-save-mode 1)
 
@@ -324,8 +285,11 @@ want to use in the modeline *in lieu of* the original.")
 
 ;; Use aspell if installed
 (when (executable-find "aspell")
+  (defvar ispell-program-name)
   (setq ispell-program-name "aspell")
+  (defvar ispell-list-command)
   (setq ispell-list-command "--list")
+  (defvar ispell-extra-args)
   (setq ispell-extra-args '("--sug-mode=ultra" "--lang=en_US")))
 
 ;; enable for the following modes
@@ -373,98 +337,31 @@ want to use in the modeline *in lieu of* the original.")
 
 
 ;; --------------------------------------------------------------------------
-;; linum-mode
+;; Line numbering
 
-(add-hook 'linum-before-numbering-hook
-          (lambda ()
-            (let ((w (length (number-to-string
-                              (count-lines (point-min) (point-max))))))
-              (setq linum-format
-                    `(lambda (line)
-                       (propertize (concat
-                                    (truncate-string-to-width
-                                     "" (- ,w (length (number-to-string line)))
-                                     nil ?\x2007)
-                                    (number-to-string line)
-                                    "\x2007")
-                                   'face 'linum))))))
+(when (version<= emacs-version "26.0.50")
+  (add-hook 'linum-before-numbering-hook
+            (lambda ()
+              (let ((w (length (number-to-string
+                                (count-lines (point-min) (point-max))))))
+                (defvar linum-format)
+                (setq linum-format
+                      `(lambda (line)
+                         (propertize (concat
+                                      (truncate-string-to-width
+                                       "" (- ,w (length (number-to-string line)))
+                                       nil ?\x2007)
+                                      (number-to-string line)
+                                      "\x2007")
+                                     'face 'linum)))))))
 
-(dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
-  (add-hook hook (lambda ()
-                   (linum-mode 1))))
-
-;; --------------------------------------------------------------------------
-;; org-mode
-
-(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
-
-; not needed when global-font-lock-mode is on
-(add-hook 'org-mode-hook 'turn-on-font-lock)
-
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
-
-(eval-after-load "org"
-  '(progn
-     (define-prefix-command 'org-todo-state-map)
-     (define-key org-mode-map "\C-cx" 'org-todo-state-map)
-     (define-key org-todo-state-map "p"
-       #'(lambda nil (interactive) (org-todo "IN-PROGRESS")))
-     (define-key org-todo-state-map "r"
-       #'(lambda nil (interactive) (org-todo "IN-REVIEW")))
-     (define-key org-todo-state-map "d"
-       #'(lambda nil (interactive) (org-todo "DONE")))
-     (define-key org-todo-state-map "o"
-       #'(lambda nil (interactive) (org-todo "OBSOLETE")))
-     (define-key org-todo-state-map "b"
-       #'(lambda nil (interactive) (org-todo "BLOCKED")))
-     (define-key org-todo-state-map "l"
-       #'(lambda nil (interactive) (org-todo "DELEGATED")))))
-
-(setq org-todo-keywords
-      '((sequence "TODO" "IN-PROGRESS" "IN-REVIEW" "DONE")))
-
-(setq org-agenda-custom-commands
-      (quote (("d" todo "DELEGATED" nil)
-              ("c" todo "DONE|OBSOLETE" nil)
-              ("b" todo "BLOCKED" nil)
-              ("W" agenda "" ((org-agenda-ndays 21)))
-              ("A" agenda ""
-               ((org-agenda-skip-function
-                 (lambda nil
-                   (org-agenda-skip-entry-if (quote notregexp)
-                                             "\\=.*\\[#A\\]")))
-                (org-agenda-ndays 1)
-                (org-agenda-overriding-header "Today's Priority #A tasks: ")))
-              ("u" alltodo ""
-               ((org-agenda-skip-function
-                 (lambda nil
-                   (org-agenda-skip-entry-if (quote scheduled) (quote deadline)
-                                             (quote regexp) "\n]+>")))
-                (org-agenda-overriding-header "Unscheduled TODO entries:"))))))
-
-
-(setq org-directory "~/org/")
-
-(setq org-agenda-files (list org-directory)
-      org-agenda-ndays 7
-      org-agenda-show-all-dates t
-      org-agenda-skip-deadline-if-done t
-      org-agenda-skip-scheduled-if-done t
-      org-agenda-start-on-weekday nil
-      org-completion-use-ido t
-      org-deadline-warning-days 14
-      org-default-notes-file "~/org/notes.org"
-      org-fast-tag-selection-single-key (quote expert)
-      org-reverse-note-order t)
-
-(setq org-capture-templates
-      (quote (("t" "Todo" entry (file+headline "~/org/inbox.org" "Tasks")
-               "* TODO %?\n  %u")
-              ("n" "Note" entry (file+datetree "~/org/notes.org")
-               "** %u %?"))))
+(if (version<= "26.0.50" emacs-version)
+    (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
+      (add-hook hook (lambda ()
+                       (display-line-numbers-mode 1))))
+  (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
+    (add-hook hook (lambda ()
+                     (linum-mode 1)))))
 
 
 ;; --------------------------------------------------------------------------
@@ -549,7 +446,6 @@ want to use in the modeline *in lieu of* the original.")
                             company-mode
                             company-quickhelp
                             company-web
-                            dash
                             deft
                             direnv
                             docker-compose-mode
@@ -572,6 +468,7 @@ want to use in the modeline *in lieu of* the original.")
                             lsp-ui
                             magit
                             markdown-mode
+                            org-mode
                             popup
                             pos-tip
                             projectile

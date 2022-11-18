@@ -1,3 +1,9 @@
+;;; init-yasnippet.el -- initialization code for yasnippet.
+;;; Commentary:
+;;; Code:
+
+(eval-when-compile (require 'yasnippet))
+
 (defun yas-popup-isearch-prompt (prompt choices &optional display-fn)
   (when (featurep 'popup)
     (popup-menu*
@@ -25,31 +31,31 @@
 ;; this solves the "term-send-raw: Wrong type argument: characterp, tab" issue
 (add-hook 'term-mode-hook (lambda() (setq yas-dont-activate t)))
 
-(require 'yasnippet)
-
 (yas-global-mode 1)
 
-(defun check-expansion ()
-  (save-excursion
-    (if (looking-at "\\_>") t
-      (backward-char 1)
-      (if (looking-at "\\.") t
-	(backward-char 1)
-	(if (looking-at "->") t nil)))))
+;; (defun check-expansion ()
+;;   (save-excursion
+;;     (if (looking-at "\\_>") t
+;;       (backward-char 1)
+;;       (if (looking-at "\\.") t
+;; 	(backward-char 1)
+;; 	(if (looking-at "->") t nil)))))
 
-(defun do-yas-expand ()
-  (let ((yas/fallback-behavior 'return-nil))
-    (yas/expand)))
+;; (defun do-yas-expand ()
+;;   (let ((yas/fallback-behavior 'return-nil))
+;;     (yas/expand)))
 
-(defun tab-indent-or-complete ()
-  (interactive)
-  (if (minibufferp)
-      (minibuffer-complete)
-    (if (or (not yas/minor-mode)
-	    (null (do-yas-expand)))
-	(if (check-expansion)
-	    (company-complete-common)
-	  (indent-for-tab-command)))))
+;; (defun tab-indent-or-complete ()
+;;   (interactive)
+;;   (if (minibufferp)
+;;       (minibuffer-complete)
+;;     (if (or (not yas/minor-mode)
+;; 	    (null (do-yas-expand)))
+;; 	(if (check-expansion)
+;; 	    (company-complete-common)
+;; 	  (indent-for-tab-command)))))
 
+;; (global-set-key [tab] 'tab-indent-or-complete)
 
-(global-set-key [tab] 'tab-indent-or-complete)
+(provide 'init-yasnippet.el)
+;;; init-yasnippet.el ends here
