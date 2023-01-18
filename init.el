@@ -7,6 +7,12 @@
 
 ;;; Code:
 
+;; increase the gc threshold
+(setq gc-cons-threshold 100000000)
+
+;; increase the amount of data which emacs reads from processes
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
+
 ;; (add-to-list 'exec-path "/usr/local/bin")
 
 ;; these are shoved at the top to speed boot.
@@ -15,10 +21,10 @@
 
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+;; (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
 (when (string-equal window-system "x")
-  (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-10"))
+  (add-to-list 'default-frame-alist '(font . "Hack Nerd Font Mono-9"))
 
   ;; set chrome as the default browser
   (setq browse-url-browser-function 'browse-url-generic
@@ -102,6 +108,7 @@
 
 (dolist (hook '(prog-mode-hook text-mode-hook))
   (add-hook hook (lambda ()
+                   (setq-local comment-auto-fill-only-comments t)
                    (auto-fill-mode 1))))
 
 
@@ -118,6 +125,7 @@
       (defvar compilation-filter-start)
       (ansi-color-apply-on-region compilation-filter-start (point-max))))
   (add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer))
+
 
 ;; --------------------------------------------------------------------------
 ;; clean the mode line
@@ -303,10 +311,12 @@ want to use in the modeline *in lieu of* the original.")
 (dolist (hook '(change-log-mode-hook log-edit-mode-hook))
   (add-hook hook (lambda () (flyspell-mode -1))))
 
+
 ;; --------------------------------------------------------------------------
 ; html-mode
 
 (add-hook 'html-mode-hook (lambda () (auto-fill-mode -1) (zencoding-mode 1)))
+
 
 ;; --------------------------------------------------------------------------
 ; ido-mode
@@ -365,19 +375,10 @@ want to use in the modeline *in lieu of* the original.")
 
 
 ;; --------------------------------------------------------------------------
-;; python-mode
-
-;;; bind RET to py-newline-and-indent
-(add-hook 'python-mode-hook
-          (lambda ()
-            (define-key python-mode-map "\C-m" 'newline-and-indent)
-            (define-key python-mode-map (kbd "<backspace>") 'backward-delete-char-untabify)))
-
-
-;; --------------------------------------------------------------------------
 ;; text-mode
 
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
+
 
 ;; --------------------------------------------------------------------------
 ;; sh-mode
@@ -441,8 +442,6 @@ want to use in the modeline *in lieu of* the original.")
                                              el-get-user-directory) "init")
       the-el-get-packages '(all-the-icons
                             auto-highlight-symbol
-;;                            bazel-mode
-                            company-lsp
                             company-mode
                             company-quickhelp
                             company-web
@@ -451,6 +450,9 @@ want to use in the modeline *in lieu of* the original.")
                             docker-compose-mode
                             docker-tramp
                             dockerfile-mode
+                            emacs-pet
+                            emacs-bazel-mode
+;;                            envrc
                             exec-path-from-shell
                             flycheck
 ;;                            go-company
@@ -474,7 +476,9 @@ want to use in the modeline *in lieu of* the original.")
                             projectile
                             protobuf-mode
                             puppet-mode
+                            python-mode
                             python-black
+                            python-isort
                             rainbow-delimiters
                             rainbow-mode
                             scala-mode
@@ -483,10 +487,11 @@ want to use in the modeline *in lieu of* the original.")
                             sr-speedbar
                             terraform-mode
                             tomorrow-theme
+                            color-theme-sanityinc-tomorrow
                             treemacs
                             treemacs-icons-dired
                             treemacs-projectile
-                            vterm
+;;                            vterm
                             web-completion-data
                             web-mode
                             yaml-mode
@@ -513,8 +518,13 @@ want to use in the modeline *in lieu of* the original.")
           ("melpa" . "https://melpa.org/packages/")
           ("tromey" . "http://tromey.com/elpa/")))
 
+(add-to-list 'el-get-recipe-path (concat el-get-user-directory "/recipes"))
+
 (el-get 'sync '(el-get))
 (el-get 'sync the-el-get-packages)
+
+;; (envrc-global-mode)
+
 
 ;; --------------------------------------------------------------------------
 ;; compile and load up the local stuff

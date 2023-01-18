@@ -1,18 +1,27 @@
-;;; Require
+;;; init-company-mode.el -- initialization code for company-mode
+;;; Commentary:
+;;; Requires:
 
-(require 'company)
+(eval-when-compile (require 'company))
 ;; (require 'company-posframe)
-(require 'company-yasnippet)
-(require 'company-dabbrev)
-(require 'company-files)
+
+(cond ((locate-library "company-yasnippet")
+       (eval-when-compile (require 'company-yasnippet))))
+
+(cond ((locate-library "company-dabbrev")
+       (eval-when-compile (require 'company-dabbrev))))
+
+(cond ((locate-library "company-files")
+       (eval-when-compile (require 'company-files))))
+
 ;; (require 'desktop)
 
 ;;; Code:
 
 ;; Config for company mode.
 ;; (global-company-mode)
-(setq company-idle-delay 0.2)
-(setq company-minimum-prefix-length 1)
+;; (setq company-idle-delay 0.2)
+;; (setq company-minimum-prefix-length 1)
 ;; (setq company-show-numbers nil)
 
 ;; ;; Customize company backends.
@@ -28,6 +37,31 @@
 ;;           '(lambda ()
 ;;              (require 'company-elisp)
 ;;              (push 'company-elisp company-backends)))
+
+(dolist (backend '((company-capf :with company-yasnippet)
+                   (company-capf :with company-dabbrev)))
+  (add-to-list 'company-backends backend))
+
+(setq company-idle-delay 0
+      company-tooltip-idle-delay 1
+      company-require-match nil
+      company-frontends
+      '(company-pseudo-tooltip-unless-just-one-frontend-with-delay
+        company-preview-frontend
+        company-echo-metadata-frontend)
+      company-backends '(company-capf)
+      company-tooltip-align-annotations t)
+
+(define-key company-active-map (kbd "TAB") 'company-indent-or-complete-common)
+
+;; (global-set-key (kbd "<tab>")
+;;                 (lambda ()
+;;                   (interactive)
+;;                   (let ((company-tooltip-idle-delay 0.0))
+;;                     (company-complete)
+;;                     (and company-candidates
+;;                          (company-call-frontends 'post-command)))))
+
 
 ;; ;; Key settings.
 ;; ;; (define-key company-mode-map (kbd "TAB") nil)
@@ -60,3 +94,5 @@
 ;; (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
 
 (add-hook 'after-init-hook 'global-company-mode)
+
+;;; init-company-mode.el ends here

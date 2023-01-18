@@ -1,0 +1,8 @@
+(:name lsp-jedi
+       :website "https://github.com/fredcamps/lsp-jedi.git"
+       :description "A Emacs client for Python Jedi Language Server (LSP client plugin for lsp-mode Emacs extension)"
+       :type github
+       :pkgname "fredcamps/lsp-jedi"
+       :compile "lsp-jedi.el"
+       :submodule nil
+       :depends (lsp-mode))

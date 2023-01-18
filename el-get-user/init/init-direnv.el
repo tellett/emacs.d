@@ -3,8 +3,10 @@
 ;;; Code:
 
 (eval-when-compile (require 'direnv))
+(eval-when-compile (require 'exec-path-from-shell))
 
-(direnv-mode)
+(progn (exec-path-from-shell-initialize))
+(direnv-mode 1)
 
 (provide 'init-direnv)
 ;;; init-direnv.el ends here

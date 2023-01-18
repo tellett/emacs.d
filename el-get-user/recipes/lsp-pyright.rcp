@@ -1,0 +1,8 @@
+(:name lsp-pyright
+       :website "https://github.com/emacs-lsp/lsp-pyright.git"
+       :description "lsp-mode client leveraging Pyright language server"
+       :type github
+       :pkgname "emacs-lsp/lsp-pyright"
+       :compile "lsp-pyright.el"
+       :submodule nil
+       :depends (lsp-mode dash ht))
