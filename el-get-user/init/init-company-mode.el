@@ -38,8 +38,10 @@
 ;;              (require 'company-elisp)
 ;;              (push 'company-elisp company-backends)))
 
-(dolist (backend '((company-capf :with company-yasnippet)
-                   (company-capf :with company-dabbrev)))
+(dolist (backend
+         '(
+           (company-capf :with company-yasnippet company-dabbrev-code)
+           ))
   (add-to-list 'company-backends backend))
 
 (setq company-idle-delay 0
