@@ -38,23 +38,23 @@
 ;;              (require 'company-elisp)
 ;;              (push 'company-elisp company-backends)))
 
-(dolist (backend
-         '(
-           (company-capf :with company-yasnippet company-dabbrev-code)
-           ))
-  (add-to-list 'company-backends backend))
+(with-eval-after-load "company"
+  (dolist (backend
+           '(
+             (company-capf :with company-yasnippet company-dabbrev-code)
+             ))
+    (add-to-list 'company-backends backend))
 
-(setq company-idle-delay 0
-      company-tooltip-idle-delay 1
-      company-require-match nil
-      company-frontends
-      '(company-pseudo-tooltip-unless-just-one-frontend-with-delay
-        company-preview-frontend
-        company-echo-metadata-frontend)
-      company-backends '(company-capf)
-      company-tooltip-align-annotations t)
+  (setq company-idle-delay 0.5
+        company-tooltip-idle-delay 1
+        company-require-match nil
+        company-frontends
+        '(company-pseudo-tooltip-unless-just-one-frontend-with-delay
+          company-preview-frontend
+          company-echo-metadata-frontend)
+        company-tooltip-align-annotations t)
 
-(define-key company-active-map (kbd "TAB") 'company-indent-or-complete-common)
+  (define-key company-active-map (kbd "TAB") 'company-indent-or-complete-common))
 
 ;; (global-set-key (kbd "<tab>")
 ;;                 (lambda ()

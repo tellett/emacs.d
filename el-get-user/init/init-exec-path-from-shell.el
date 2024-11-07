@@ -13,7 +13,7 @@
 ;;     (setq eshell-path-env path-from-shell) ; for eshell users
 ;;     (setq exec-path (split-string path-from-shell path-separator))))
 
-(dolist (var '("CLOUDSDK_HOME" "LSP_USE_PLISTS" "PYENV_ROOT"))
+(dolist (var '("CLOUDSDK_HOME" "LSP_USE_PLISTS" "PYENV_ROOT" "PATH"))
   (add-to-list 'exec-path-from-shell-variables var))
 
 (when (or (memq window-system '(mac ns x)) (daemonp))

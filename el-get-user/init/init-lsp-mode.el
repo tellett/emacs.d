@@ -3,6 +3,8 @@
 ;;; Requires:
 ;;; Code:
 
-(setq lsp-completion-provider :none)
+;; (setq lsp-completion-provider :none)
+
+(add-hook 'lsp-before-initialize-hook 'pet-mode)
 
 ;;; init-lsp-mode.el ends here

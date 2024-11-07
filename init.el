@@ -24,7 +24,7 @@
 ;; (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
 (when (string-equal window-system "x")
-  (add-to-list 'default-frame-alist '(font . "Hack Nerd Font Mono-9"))
+  (add-to-list 'default-frame-alist '(font . "BitstreamVeraSansMono Nerd Font-9"))
 
   ;; set chrome as the default browser
   (setq browse-url-browser-function 'browse-url-generic
@@ -114,8 +114,6 @@
 
 ;; --------------------------------------------------------------------------
 ;; compilation-mode
-
-(eval-when-compile )
 
 (setq-default compilation-scroll-output 'first-error)
 
@@ -264,6 +262,18 @@ want to use in the modeline *in lieu of* the original.")
 ;;     ad-do-it))
 
 (desktop-save-mode 1)
+
+
+;; --------------------------------------------------------------------------
+;; sticky windows
+
+(define-minor-mode sticky-mode
+  "Make the current window always display this buffer."
+  nil " st" nil
+  (set-window-dedicated-p (selected-window) sticky-mode))
+
+
+(global-set-key [f11] 'sticky-mode)
 
 
 ;; --------------------------------------------------------------------------
@@ -442,25 +452,20 @@ want to use in the modeline *in lieu of* the original.")
                                              el-get-user-directory) "init")
       the-el-get-packages '(all-the-icons
                             auto-highlight-symbol
+                            company-lsp
                             company-mode
                             company-quickhelp
                             company-web
                             deft
-                            direnv
                             docker-compose-mode
-                            docker-tramp
                             dockerfile-mode
                             emacs-pet
                             emacs-bazel-mode
-;;                            envrc
-                            exec-path-from-shell
+                            envrc
                             flycheck
-;;                            go-company
-;;                            go-dlv
-;;                            go-eldoc
+                            git-gutter-fringe
+                            go-company
                             go-mode
-;;                            go-projectile
-;;                            go-rename
                             gradle-mode
                             ido-completing-read-plus
                             json-mode
@@ -471,14 +476,15 @@ want to use in the modeline *in lieu of* the original.")
                             magit
                             markdown-mode
                             org-mode
+                            pip-requirements
                             popup
                             pos-tip
                             projectile
                             protobuf-mode
                             puppet-mode
                             python-mode
-                            python-black
-                            python-isort
+                            ;; python-black
+                            ;; python-isort
                             rainbow-delimiters
                             rainbow-mode
                             scala-mode
@@ -487,11 +493,11 @@ want to use in the modeline *in lieu of* the original.")
                             sr-speedbar
                             terraform-mode
                             tomorrow-theme
-                            color-theme-sanityinc-tomorrow
                             treemacs
-                            treemacs-icons-dired
+                            treemacs-magit
                             treemacs-projectile
-;;                            vterm
+                            color-theme-sanityinc-tomorrow
+                            toml-mode
                             web-completion-data
                             web-mode
                             yaml-mode
