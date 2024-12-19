@@ -25,6 +25,8 @@
 
 (when (string-equal window-system "x")
   (add-to-list 'default-frame-alist '(font . "BitstreamVeraSansMono Nerd Font-9"))
+  (set-frame-parameter nil 'alpha-background 95)
+  (add-to-list 'default-frame-alist '(alpha-background . 95))
 
   ;; set chrome as the default browser
   (setq browse-url-browser-function 'browse-url-generic
